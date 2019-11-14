@@ -1,26 +1,41 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, {Component} from 'react';
+import nanoid from 'nanoid';
+
+import AddTaskForm from "./Components/AddTaskForm/AddTaskForm";
+import Task from "./Components/Task/Task";
 import './App.css';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends Component {
+  state = {
+    tasks : [
+      {name: 'Clean my room', id: nanoid()},
+      {name: 'Do the dishes', id: nanoid()},
+      {name: 'Sing a song', id: nanoid()},
+    ],
+    currentTask : {name:'', key: '',}
+  };
+
+  addTask = (e) => {
+    e.preventDefault();
+    const tasks = this.state.tasks;
+    tasks.push()
+  };
+  render() {
+    const tasks = this.state.tasks.map((task) => (
+      <Task name={task.name}
+            key={task.id}
+          />
+      ));
+
+
+    return (
+      <div className='App'>
+        <AddTaskForm addTask={(e)=>this.addTask(e)}/>
+        {tasks}
+      </div>
+    )
+
+  }
 }
 
 export default App;

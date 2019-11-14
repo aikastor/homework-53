@@ -12,13 +12,25 @@ class App extends Component {
       {name: 'Do the dishes', id: nanoid()},
       {name: 'Sing a song', id: nanoid()},
     ],
-    currentTask : {name:'', key: '',}
+    currentTask : '',
   };
 
   addTask = (e) => {
     e.preventDefault();
-    const tasks = this.state.tasks;
-    tasks.push()
+
+    if(this.validateForm()) {
+      const tasks = [...this.state.tasks];
+      tasks.push({name: this.state.currentTask, id: nanoid()});
+      this.setState({tasks});
+    }
+
+  };
+  validateForm () {
+    return this.state.currentTask.trim();
+  }
+  handleInput = e => {
+    this.setState({currentTask: e.target.value});
+    
   };
   render() {
     const tasks = this.state.tasks.map((task) => (
@@ -27,10 +39,15 @@ class App extends Component {
           />
       ));
 
+    const isValid = this.validateForm();
 
     return (
       <div className='App'>
-        <AddTaskForm addTask={(e)=>this.addTask(e)}/>
+        <AddTaskForm
+          addTask={(e)=>this.addTask(e)}
+          onChange={(e)=>this.handleInput(e)}
+          isValid = {isValid}
+        />
         {tasks}
       </div>
     )

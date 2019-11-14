@@ -23,19 +23,23 @@ class App extends Component {
       tasks.push({name: this.state.currentTask, id: nanoid()});
       this.setState({tasks});
     }
-
   };
-  validateForm () {
-    return this.state.currentTask.trim();
-  }
+  validateForm =()=> (this.state.currentTask.trim());
+
   handleInput = e => {
     this.setState({currentTask: e.target.value});
-    
+  };
+  removeTask = id => {
+    const taskIndex = this.state.tasks.findIndex(p => p.id === id);
+    const tasks = [...this.state.tasks];
+    tasks.splice(taskIndex, 1);
+    this.setState({tasks});
   };
   render() {
     const tasks = this.state.tasks.map((task) => (
       <Task name={task.name}
             key={task.id}
+            onClick={()=>this.removeTask(task.id)}
           />
       ));
 
@@ -51,7 +55,6 @@ class App extends Component {
         {tasks}
       </div>
     )
-
   }
 }
 

@@ -19,12 +19,10 @@ class App extends Component {
     e.preventDefault();
 
     if(this.validateForm()) {
-      const tasks = [...this.state.tasks, {name: this.state.currentTask, completed: false, id: nanoid()}];
-      this.setState({tasks});
-
-      let currentTask = this.state.currentTask;
-      currentTask = '';
-      this.setState({currentTask: currentTask});
+      const tasks = [...this.state.tasks];
+      const taskToAdd = {name: this.state.currentTask, completed: false, id: nanoid()};
+      tasks.push(taskToAdd);
+      this.setState({tasks, currentTask: ''});
     }
   };
 
@@ -44,7 +42,6 @@ class App extends Component {
   handleCompleteTasks = id => {
     const taskIndex = this.state.tasks.findIndex(p => p.id === id);
     const tasks = [...this.state.tasks];
-    this.setState({isChecked: !this.state.isChecked});
     tasks[taskIndex].completed = !tasks[taskIndex].completed;
     this.setState({tasks});
   };
